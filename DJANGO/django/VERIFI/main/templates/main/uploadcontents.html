@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+        .maintable {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        .filetabletd, .filetableth {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        .filetabletr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+    <meta charset="utf-8"/>
+    </head>
+    
+    <body>
+        {% block content %}
+        <h2>File Upload</h2>
+        <form id = "uploadbanner" method = "post" enctype="multipart/form-data">  
+        {% csrf_token %}   
+        <table border="0">
+            <tr>
+                <td><input id = "fileupload" type = "file" name="myfile"/></td>
+            </tr>
+            <tr>
+                <td><button type="submit">Upload</button></td>
+            </tr>
+        </table>
+      </form>
+
+        {% if uploaded_file %}
+        <h3>File: {{ uploaded_file }} uploaded successfully.</h3>
+        {% endif %}
+
+      <h2>File Upload History</h2>
+      <table class="maintable" border="0">
+        <tr class="filetabletr">
+            <th class="filetableth">File Name</th>
+            <th class="filetableth">Date/Time</th>
+            <th class="filetableth">File Status</th>
+        </tr>
+        {% for file in files_list %}        
+        <tr class="filetabletr">
+              <td class="filetabletd">{{ file.file_name }}</td>
+              <td class="filetabletd">{{ file.date_added }}</td>
+              <td class="filetabletd">{{ file.status }} </td>
+        </tr>
+        {% endfor %}        
+      </table>
+      {% endblock %}
+    </body>
+</html>

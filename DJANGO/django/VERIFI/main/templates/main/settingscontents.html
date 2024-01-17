@@ -1,0 +1,113 @@
+<!DOCTYPE html>    
+<html>    
+    <style type="text/css">
+
+        /*select {
+            width: 200px;
+            float: left;
+        } 
+        
+        select {
+            width: 200px;
+            height: 100%;
+            line-height: 50px;
+            size: 10;
+        }    
+        
+        .selectlist {
+            width: 100%;
+        }   
+
+        */   
+
+        td {
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .listbox {
+            width: 100%;
+        }
+
+        .combo {
+            width: 20%;
+        }        
+
+        .controls {
+            width: 40px;
+            float: left;
+            margin: 10px;
+        }
+        .controls a {
+            background-color: #222222;
+            border-radius: 4px;
+            border: 2px solid #000;
+            color: #ffffff;
+            padding: 2px;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin: 5px;
+            width: 20px;
+        }
+        </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+</script>
+<script>
+
+function moveAll(from, to) {
+    $('#'+from+' option').remove().appendTo('#'+to); 
+}
+
+function moveSelected(from, to) {
+    $('#'+from+' option:selected').remove().appendTo('#'+to); 
+}
+function selectAll() {
+    $("select option").attr("selected","selected");
+}
+</script>        
+
+<body>
+    {% block content %}
+    <table border="1" width="100%">
+        <form name="selection" method="post" onSubmit="return selectAll()">  
+        {% csrf_token %}          
+        <tr>
+            <td>
+                <select id="questions" class="listbox" size="20">
+                    {% for question in questions_list %}        
+                    <option value="{{ question.id }}">{{ question.question_src_id }} -- {{ question.question_text }} -- {{ question.question_description }}</option>
+                    {% endfor %}                     
+                </select>                
+            </td>
+            <td width="50px">
+                <div class="controls"> 
+                    <!-- <a href="javascript:moveAll('from', 'to')">&gt;&gt;</a> 
+                    <a href="javascript:moveSelected('from', 'to')">&gt;</a> 
+                    <a href="javascript:moveSelected('to', 'from')">&lt;</a> 
+                    <a href="javascript:moveAll('to', 'from')" href="#">&lt;&lt;</a>  -->
+                </div>
+            </td>        
+            <td>
+                    <select id="selectlist" class="listbox" size="20">
+                        {% for header in header_list %}        
+                        <option value="{{ header.id }}">Column Position {{ header.id }} -- {{ header.csv_column }} </option>
+                        {% endfor %}  
+                    </select>                
+            </td>
+            <td>
+                <select id="selectlist" class="listbox" size="20">
+                    {% for header in header_list %}        
+                    <option value="id">Current associations here.................................................... </option>
+                    {% endfor %}  
+                </select>                
+            </td>            
+        </tr>
+        <form> 
+    </table>
+    <button type="button">Save</button>
+    {% endblock %}
+</body>        
+
+</html>    

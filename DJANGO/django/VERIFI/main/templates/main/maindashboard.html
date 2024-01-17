@@ -1,0 +1,145 @@
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<style>/* Set height of body and the document to 100% to enable "full page tabs" */
+            body, html {
+              height: 100%;
+              margin: 0;
+              font-family: Arial;
+            }
+
+            /* .center {
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+              width: 50%;
+              align-self: center;
+            } */
+            
+            /* Style tab links */
+            .tablink {
+              background-color: #999;
+              color: white;
+              float: left;
+              border: none;
+              outline: none;
+              cursor: pointer;
+              padding: 14px 16px;
+              font-size: 17px;
+              width: 20%;       /* this needs to vary depending on the number of buttons permitted to be viewed. */
+            }
+            
+            .tablink:hover {
+              background-color: #777;
+            }
+            
+            /* Style the tab content (and add height:100% for full page content) */
+            .tabcontent {
+              color: black;
+              display: none;
+              padding: 100px 20px;
+              height: 100%;
+            }
+
+            .alnright { text-align: right; }
+            .alcenter { text-align: center; }
+            
+            #Dashboard {background-color: white;}
+            #Settings {background-color: white;}
+            #Reports {background-color: white;}
+            #About {background-color: white;}
+            </style>
+			<script>
+			//function openPage(pageName, elmnt, color) {
+        function openPage(pageName, elmnt) {
+			  // Hide all elements with class="tabcontent" by default */
+			  var i, tabcontent, tablinks;
+			  tabcontent = document.getElementsByClassName("tabcontent");
+			  for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			  }
+
+			  // Remove the background color of all tablinks/buttons
+			//  tablinks = document.getElementsByClassName("tablink");
+			//  for (i = 0; i < tablinks.length; i++) {
+			//	tablinks[i].style.backgroundColor = "";
+			//  }
+
+			  // Show the specific tab content
+			  document.getElementById(pageName).style.display = "block";
+
+			  // Add the specific color to the button used to open the tab content
+			  //elmnt.style.backgroundColor = color;
+			}
+
+			// Get the element with id="defaultOpen" and click on it
+			document.getElementById("defaultOpen").click();
+			</script>
+      {% csrf_token %}
+		</head>
+        {% load static %}
+        <table border="0" align="center">
+          <td>          
+            <div><img class="logo" src="{% static 'VeriFi_logo_removebg.jpg' %}" width="300" height="75"></div>
+          </td>
+          <td width="50%"" class='alcenter'>
+            Welcome {{ firstname }}  {{ lastname }}
+          </td>
+        </table>   
+        {% for dbitem in menu_items %}
+          {% if dbitem.permission_item == 'Administration' %}
+            <button class="tablink" onclick="openPage('Administration', this)">My Administration</button>
+          {% endif %}        
+          {% if dbitem.permission_item == 'Dashboard' %}
+  	        <button class="tablink" onclick="openPage('Dashboard', this)">My Dashboard</button>
+          {% endif %}        
+          {% if dbitem.permission_item == 'Settings' %}
+            <button class="tablink" onclick="openPage('Settings', this)" id="defaultOpen">My Settings</button>
+          {% endif %}        
+          {% if dbitem.permission_item == 'Reports' %}
+            <button class="tablink" onclick="openPage('Reports', this)">My Reports</button>
+          {% endif %}        
+          {% if dbitem.permission_item == 'Home' %}
+            <button class="tablink" onclick="openPage('Home', this)">My Home</button>
+          {% endif %} 
+          {% if dbitem.permission_item == 'Transactions' %}
+            <button class="tablink" onclick="openPage('Transactions', this)">My Transactions</button>
+          {% endif %}                 
+          {% if dbitem.permission_item == 'Data' %}
+            <button class="tablink" onclick="openPage('Data', this)">My Data</button>
+          {% endif %}                 
+        {% endfor %}        
+        <div id="Administration" class="tabcontent">
+          <h3>Administration</h3>
+          <p>Administration content here- {{ uid }}</p>
+          <iframe src="../administration/" title="administration" height="75%" width="100%"></iframe>
+        </div>
+
+        <div id="Dashboard" class="tabcontent">
+          <h3>User Dashboard</h3>
+          <p>User Dashboard content here</p>
+          <iframe src="../dashboard/" title="userdashboard" height="75%" width="100%"></iframe>
+        </div>
+        
+        <div id="Settings" class="tabcontent">
+          <h3>Settings</h3>
+          <p>Assign Questions to Header/Columns to be used as processing rules.</p>
+          <iframe src="../settings/" title="usersettings" height="75%" width="100%"></iframe>
+        </div>
+        
+        <div id="Reports" class="tabcontent">
+          <h3>Reports</h3>
+          <p>Reports defined and viewed here</p>
+          <iframe src="../reports/" title="userreports" height="75%" width="100%"></iframe>
+        </div>
+        
+        <div id="Transactions" class="tabcontent">
+          <h3>Transactions</h3>
+          <p>Status of pending transactions.</p>
+          <iframe src="../transactions/" title="usertransactions" height="75%" width="100%"></iframe>
+        </div>
+
+        <div id="Data" class="tabcontent">
+          <iframe src="../data/" title="userdata" height="75%" width="100%"></iframe>
+        </div>        
+	</html>
